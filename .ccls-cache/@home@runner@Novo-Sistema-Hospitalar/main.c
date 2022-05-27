@@ -108,7 +108,6 @@ void Cadastrar(Paciente **novo){
 				printf(VERDE"--------- Sucesso ! ---------- \n");
 				printf(VERDE"✔ Conta criada com sucesso! \n");
 				printf(VERDE"-------------------------------------- \n" RESET);
-				//cadastro[i].prioridade = 'A';
 				iniAmarelo++;
 				tamfilaAmarela = iniAmarelo;
 				(p)->posicaoPrioridadeVerde = tamfilaAmarela;
@@ -126,17 +125,14 @@ void Cadastrar(Paciente **novo){
 				Error();
 		} 
   
-    
 	tam = tam +1; 
 	i = i+1;
 	fim++;
-	//Reorganizar();
 }//VOID CADASTRAR
 
 void Remover(){
   printf("--------- 🚶Remover Paciente da Fila ---------- \n");
 
-	
     if(ini == fim){
 		 FilaVazia();
 		}else{
@@ -161,7 +157,7 @@ void Remover(){
 }
 
 // -------------------- Pesquisar (Posições Ocupadadas , Posições Livres , Tamanho da fila) -----------------
-void Pesquisar(){
+void Pesquisar(Paciente *p){
   menucontrole = 0;
 	printf(AZUL"<------------ 🔍Pesquisar pacientes -------> \n" RESET);
 	char escolha = ' ';
@@ -209,7 +205,7 @@ void Pesquisar(){
 					}
 				}
 			}//for
-				if(achou <= 0){ 
+				if(p->posicaoGeral == 0){ 
 					FilaVazia();
 					}
 				break;
@@ -239,8 +235,8 @@ void Pesquisar(){
 					achou++;
 					}//IF
 			}//FOR
-				if(achou <= 0){
- 				FilaVazia(); 
+				if(p->posicaoGeral == 0){
+ 					FilaVazia(); 
 					}
 					break;	
       default:Error();}//SWITCH
@@ -248,7 +244,7 @@ void Pesquisar(){
 }//VOID PESQUISAR
 
 // -------------------------- Ver Fila Completa (Corre toda a fila e mostra todos os pacientes, nome , sobrenome , e a sua prioridade dentro da fila geral) -----------------
-void VfilaCompleta(node *novo){
+void VfilaCompleta(Paciente *p){
 
   int i = ini;
 	int indice=0;
@@ -265,14 +261,20 @@ void VfilaCompleta(node *novo){
 				}
 					printf(" - ");
 					printf("Nome: "); 
-					//printf("%s" , cadastro[i].nome);
-					printf(" ");
-					//printf("%s" , cadastro[i].sobrenome);
-          printf(" | ");
-					printf("Prioridade: ");
-          //printf("%c" , cadastro[i].prioridade);
-					printf(" | ");
-          printf(" \n");
+					for(i=0 ; nome[i] != '\0'; i++){
+						printf("%s" , (p)->nome[i])
+					}
+					  printf(" ");
+          
+          for (i=0; sobrenome[i] != '\0'; i++){
+            }
+					
+            printf(" | ");
+  					printf("Prioridade: ");
+            printf("%c" , p->prioridade);
+  					
+  					printf(" | ");
+            printf(" \n");
 					i++; 
 					indice++;
 				}while(i<50);
@@ -283,10 +285,6 @@ void VfilaCompleta(node *novo){
 					 novo =
 				
 			}
-
-
-		
-   
 		} menucontrole =1;
   }
 
@@ -314,8 +312,12 @@ void VfilaTipoUrgencia(){
 					if(cadastro[f].prioridade == 'v' || cadastro[f].prioridade == 'V'){
 						printf("%d" , indice+1); 
             printf(" - ");
+
+						
 						//printf("%s" , cadastro[f].nome); 
             printf(" - ");
+
+						
 						//printf("%s" , cadastro[f].sobrenome);
             printf("\n");
 						indice++;
@@ -335,8 +337,12 @@ void VfilaTipoUrgencia(){
 						if(cadastro[t].prioridade == 'a' || cadastro[t].prioridade == 'A'){
 						printf("%d" , indice+1);
 						printf(" - ");
+
+							
 						//printf("%s" , cadastro[t].nome); 
 						printf(" - ");
+
+							
 						//printf("%s" , cadastro[t].sobrenome);
 						printf("\n");
 						indice++;
