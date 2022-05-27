@@ -26,12 +26,18 @@ struct Paciente{
 	struct Paciente *prox; // pegar o proximo paciente
 } ;
 
+
 typedef struct Paciente paciente;
 
+/*
+struct Fila{
+  paciente *paciente;
+	struct Fila *ant;
+	struct Fila *prox;
+};
+*/
 
-
-
-
+typedef struct Fila fila;
 
 
 // sistema de cores
@@ -52,17 +58,12 @@ void FilaVazia(){
 	printf("-------------------------------------\n");
 }
 
-
-
-
-
-void Reorganizar(){
+/*void Reorganizar(){
 
 	for(int i=0 ; i<49; i++){
 			for(int j=i+1; j<fim; j++){
 
-
-					if(prioridade<=3){
+        if(prioridade<=3){
 					if(cadastro[i].prioridade=='V' || cadastro[i].prioridade=='v'){
 							aux = cadastro[i];
 							cadastro[i] = cadastro[j];
@@ -73,13 +74,12 @@ void Reorganizar(){
 				}
 			}
 	}
-
-	if(prioridade >=7){
+  if(prioridade >=7){
 		prioridade=0;
 	}
-}
+}*/
 
-void Cadastrar(paciente **p){
+void Cadastrar(paciente **novo){
 	int menucontrole = 0;
 	char escolha = ' ';
 
@@ -96,12 +96,36 @@ void Cadastrar(paciente **p){
 	printf("Digite a urgência: ");
 	scanf(" %c", &escolha);
 
-		paciente *atual, *novo, *anterior;
-		novo = (paciente *) malloc(sizeof(paciente));
+		//paciente *atual, *novo, *anterior;
+		*novo = (paciente *) malloc(sizeof(paciente));
 
-		atual = *p;
-		anterior = NULL;
+		//atual = *p;
+		//anterior = NULL;
+/*
+  (*novo)->nome = nome; 
+  (*nome)->sobrenome() = sobrenome;
+	(*novo)->prioridade = 'v';
+	(*novo)->posicaoGeral = 1;
+	
+/*
+	if(atual == NULL ) {
+    novo->prox = NULL;
+        *p = novo;
+    } else{
+        while(atual != NULL && atual->nome < nome){
+            anterior = atual;
+            atual = atual->prox;
+        }
 
+        novo->prox = atual;
+
+        if(anterior == NULL){
+            *p = novo;
+        } else{
+            anterior->prox = novo;
+        }
+    }
+	
 	char verde = 'v';
 	char amarelo = 'a';
 	char prioridade;
@@ -267,6 +291,7 @@ void Pesquisar(){
       default:Error();}//SWITCH
 		menucontrole =1;
 }//VOID PESQUISAR
+
 // -------------------------- Ver Fila Completa (Corre toda a fila e mostra todos os pacientes, nome , sobrenome , e a sua prioridade dentro da fila geral) -----------------
 void VfilaCompleta(){
 
@@ -359,6 +384,7 @@ void VfilaTipoUrgencia(){
 		}
   } menucontrole =1;
 }
+
 // --------------------- Consultar Fila (Posições Ocupadadas , Posições Livres , Tamanho da fila) -----------------
 void ConsultarFila(){
   int menucontrole = 0;
@@ -374,6 +400,7 @@ void ConsultarFila(){
 	printf(" \n");
 	menucontrole =1;
 }//Void ConsultarFila
+
 // ------------------------- Menu da Aplicação (Faz o rotiamento da aplicação , o menu que gerencia as rotas e chama as demais funções da aplçicação) -----------------
 void Menu(){
   int i;
@@ -398,6 +425,7 @@ void Menu(){
       default: Error();}
 	}while(menucontrole ==1); 
 }
+
 // ----------------- Main (classe principal da nossa aplicação, ela que sera chamada quando o código rodar) -----------------
 int main(){ 
 	setlocale (LC_ALL,"portuguese"); // define o idioma do projeto como portugês brasil
