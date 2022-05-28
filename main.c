@@ -66,30 +66,21 @@ int vazia(Paciente *p){
 
 
 Paciente * aloca(){
+  
  Paciente *novo = (Paciente *) malloc(sizeof(Paciente));
- if(!novo){
-  printf("Sem memoria disponivel!\n");
-  exit(1);
- }else{
-	//Cadastrar Paciente
-  printf("--------- 📝Cadastro ---------- \n");
-	 //cadastrar
-  scanf("%s", novo->nome);
-  return novo;
- }
-}// aloca um novo nó na memória e incese as informações nesse nó.
-
-
-void Cadastrar(Paciente *p){ // chama aloca e linka os ponteiros para o anterior e o proximo da fila
-	int menucontrole = 0;
+   if(!novo){
+    printf("Sem memoria disponivel!\n");
+    exit(1);
+   }else{
+	//Cadastrar Paciente	
 	char escolha = ' ';
-
-	char nome[50] , sobrenome[50];
-	printf("--------- 📝Cadastro ---------- \n");
-	printf("Cadastrar novo Paciente :\n");
+  printf("--------- 📝Cadastro ---------- \n");
+  printf("Cadastrar novo Paciente :\n");
 	printf("Qual o nome do Paciente ?\n");
 	printf("Digite o nome e sobrenome: ");
-	scanf(" %s%s", nome , sobrenome);
+  scanf("%s", novo->nome);
+	scanf("%s", novo->sobrenome);
+	novo->posicaoGeral = tam;
 	printf("Qual a urgência do paciente ?\n");
 	printf(VERDE"V - Verde");
 	printf(RESET" | ");
@@ -97,58 +88,48 @@ void Cadastrar(Paciente *p){ // chama aloca e linka os ponteiros para o anterior
 	printf("Digite a urgência: ");
 	scanf(" %c", &escolha);
 
-		Paciente *novo = aloca();
+	switch(escolha){
 
-	char verde = 'v';
-	char amarelo = 'a';
-	char prioridade;
-  
-	  switch(escolha)
-		{
-			case 'V':
-      	case 'v':
-				printf(VERDE"--------- 🟢 Prioridade Verde 🟢 ---------- \n"RESET);
-				printf(VERDE"Prioridade definida como Verde! \n"RESET);
-				printf(VERDE"-------------------------------------- \n \n \n" RESET);
-				Sucesso();
-				prioridade = 'V';
-				iniVerde++;
-				tamfilaVerde = iniVerde;
-				(p)->posicaoPrioridadeVerde = tamfilaVerde;
-				(p)->posicaoGeral = tam;
-				for(i=0 ; nome[i] != '\0'; i++){
-						(p)->nome[i] = nome[i]; 
-					}
-				for(i=0 ; sobrenome[i] != '\0'; i++){
-          (p)->sobrenome[i] = sobrenome[i];
-        }
-		    (p)->prioridade = 'v';
+		case 'v': 
+		case 'V':
+			printf(VERDE"--------- 🟢 Prioridade Verde 🟢 ---------- \n"RESET);
+			printf(VERDE"Prioridade definida como Verde! \n"RESET);
+			printf(VERDE"-------------------------------------- \n \n \n" RESET);
+			Sucesso();
+			iniVerde++;
+			tamfilaVerde = iniVerde;
+			novo->posicaoPrioridadeVerde = tamfilaVerde;
+			novo->prioridade = 'v';
+		break;
 
-				break;
-      
-      case 'A':
-      	case 'a':
-        printf(AMARELO"--------- 🟡 Prioridade Amarela 🟡 ---------- \n" RESET);
-				printf(AMARELO"Prioridade definida como Amarela! \n" RESET);
-				printf(AMARELO"-------------------------------------- \n \n \n" RESET);
-				Sucesso();
-				iniAmarelo++;
-				tamfilaAmarela = iniAmarelo;
-				(p)->posicaoPrioridadeVerde = tamfilaAmarela;
-				(p)->posicaoGeral = tam;
-					for(i=0 ; nome[i] != '\0'; i++){
-						(p)->nome[i] = nome[i]; 
-					}
-				for(i=0 ; sobrenome[i] != '\0'; i++){
-          (p)->sobrenome[i] = sobrenome[i];
-        }
-  			
-		    (p)->prioridade = 'a';
+    case 'a':
+    case 'A':
+      printf(AMARELO"--------- 🟡 Prioridade Amarela 🟡 ---------- \n" RESET);
+			printf(AMARELO"Prioridade definida como Amarela! \n" RESET);
+			printf(AMARELO"-------------------------------------- \n \n \n" RESET);
+			Sucesso();
+			iniAmarelo++;
+			tamfilaAmarela = iniAmarelo;
+			novo->posicaoPrioridadeAmarela = tamfilaAmarela;
+		  novo->prioridade = 'a';
       break;
       default:
-				Error();
-		} 
-  
+			Error();
+    break;
+	}
+    return novo;
+ }
+}// aloca um novo nó na memória e incese as informações nesse nó.
+
+
+void Cadastrar(Paciente *p){ // chama aloca e linka os ponteiros para o anterior e o proximo da fila
+	int menucontrole = 0;
+	
+	Paciente *novo = aloca();
+ 	novo->prox = NULL;
+	
+
+
 	tam = tam +1; 
 	i = i+1;
 	fim++;
@@ -273,6 +254,20 @@ void VfilaCompleta(Paciente *p){
 	int indice=0;
   menucontrole = 0;
 	printf(AZUL"--------- 📋Visualizar Fila Completa ---------- \n" RESET);
+
+if(vazia(p)){
+	printf(AZUL"A Fila está vazia! 🥲" RESET);
+}else{
+	Paciente *tmp;
+	tmp = p->prox;
+	printf("Nome:");
+	while(tmp != NULL){
+		printf("%s", tmp->nome);
+		tmp = tmp->prox;
+	}
+}
+
+	/*
 	if(ini == fim){ 
     FilaVazia(); 
     }else{
@@ -296,6 +291,8 @@ void VfilaCompleta(Paciente *p){
 					indice++;
 				}while(i<50);
 		} menucontrole =1;
+	*/
+	
   }
 
 // Ver Fila por tipo de urgencia|Prioridade (corre toda a fila e mostra apenas os pacientes de acordo com a prioridade escolhida no sistema)
@@ -371,7 +368,7 @@ void ConsultarFila(){
 	menucontrole =1;
 }//Void ConsultarFila
 
-// Menu da Aplicação (Faz o rotiamento da aplicação , o menu que gerencia as rotas e chama as demais funções da aplçicação) 
+// Menu da Aplicação (Faz o rotiamento da aplicação , o menu que gerencia as rotas e chama as demais funções da aplicação) 
 void Menu(){
   int i;
 
@@ -394,12 +391,17 @@ void Menu(){
       case 4:VfilaCompleta(p);break;
       case 5:VfilaTipoUrgencia(p);break;
       case 6:ConsultarFila(); break;
-      default: Error();}
+      default:Error();}
 	}while(menucontrole ==1); 
 }
 
 //  Main (classe principal da nossa aplicação, ela que sera chamada quando o código rodar)
 int main(){ 
+
+	Paciente *p = (Paciente *) malloc(sizeof(Paciente)); 
+	
+	inicia(p,&tam);
+	
 	setlocale (LC_ALL,"portuguese"); // define o idioma do projeto como portugês brasil
 	Menu(); // chama o menu
 }
