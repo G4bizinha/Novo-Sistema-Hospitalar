@@ -5,7 +5,6 @@
 #include <unistd.h>
 
 int menucontrole = 1;
-int tam;
 int ini,fim;
 int tamfilaAmarela = 0;
 int tamfilaVerde = 0;
@@ -19,12 +18,12 @@ struct Paciente{
   char nome[50];//salva o nome do paciente na fila
 	char sobrenome[50];//salvar o sobrenome 
   char prioridade;//salva a prioridade do paciente   V ou A
-  int posicaoGeral; // salva a posição do paciente da fila por ordem de chegada.
-	int posicaoPrioridadeVerde;// salva a posição do paciente pela prioridade Verde
-	int posicaoPrioridadeAmarela;// salva a posição do paciente pela prioridade Amarela
-	struct Paciente *ant; // pegar o paciente anterior
-	struct Paciente *prox; // pegar o proximo paciente
-} ;
+  int posicaoGeral;//salva a posição do paciente da fila por ordem de chegada.
+	int posicaoPrioridadeVerde;//salva a posição do paciente pela prioridade Verde
+	int posicaoPrioridadeAmarela;//salva a posição do paciente pela prioridade Amarela
+	struct Paciente *ant; //pegar o paciente anterior
+	struct Paciente *prox; //pegar o proximo paciente
+};
  
 typedef struct Paciente Paciente;
 
@@ -53,20 +52,31 @@ void Sucesso(){
 }
 
 void inicia(Paciente *p, int *tam){
- p->prox = NULL;
+ 	p->prox = NULL;
+	p->ant = NULL;
  (*tam) = 0;
-}// Inicia a fila
+}
 
 int vazia(Paciente *p){
- if(p->prox == NULL)
-  return 1;
- else
-  return 0;
+ if(p->prox == NULL){
+	 return 1;
+	 FilaVazia();
+ }else{
+	 return 0;
+ }
 } // Verifica se a fila esta vazia
 
 
-Paciente * aloca(){
+void IncerirPaciente(){
+
+
+
+
+	
+}
   
+  Paciente *aloca(){
+  int tam;
  Paciente *novo = (Paciente *) malloc(sizeof(Paciente));
    if(!novo){
     printf("Sem memoria disponivel!\n");
@@ -122,13 +132,42 @@ Paciente * aloca(){
 }// aloca um novo nó na memória e incese as informações nesse nó.
 
 
-void Cadastrar(Paciente *p){ // chama aloca e linka os ponteiros para o anterior e o proximo da fila
+Paciente *aloca()
+{
+ Paciente *novo = (Paciente *) malloc(sizeof(Paciente));
+ if(!novo){
+  printf("Sem memoria disponivel!\n");
+  exit(1);
+ }else{
+  printf("Novo elemento: ");
+  scanf("%s", novo->nome);
+  return novo;
+ }
+}
+
+void inserirFim(Paciente *p , int *tam){
+
+	Paciente *novo = aloca();
+	novo->prox = NULL;
+
+	if(vazia(p)){
+		p->prox=novo;
+	}else{
+		Paciente *tmp = p->prox;
+
+		while (tmp->prox !=NULL)
+			tmp = tmp->prox;
+
+			tmp->prox = novo;
+      }
+    (*tam)++;
+}
+
+void Cadastrar(Paciente *p , int tam){ // chama aloca e linka os ponteiros para o anterior e o proximo da fila
 	int menucontrole = 0;
 	
-	Paciente *novo = aloca();
+	Paciente *novo = aloca(tam);
  	novo->prox = NULL;
-	
-
 
 	tam = tam +1; 
 	i = i+1;
@@ -138,31 +177,16 @@ void Cadastrar(Paciente *p){ // chama aloca e linka os ponteiros para o anterior
 void Remover(){
   printf("--------- 🚶Remover Paciente da Fila ---------- \n");
 
-    if(ini == fim){
-		 FilaVazia();
-		}else{
-			ini++;
-
-			if(tamfilaAmarela != 0){ 
-		if(prioridade < 3){
-				tamfilaAmarela--; 
-				prioridade++;
-		}	
-	}else if (tamfilaVerde != 0){
-		tamfilaVerde--;
-		if(prioridade >=7){
-			prioridade=0;
-		} 
-	}
+    //codigo para remover paciente
 		
 	printf(VERDE"--------- ✔ Paciente removido com sucesso ! 😁👍---------- \n");
 	menucontrole =1;
 	//Reorganizar();
-	}
 }
 
+
 //Pesquisar (Posições Ocupadadas , Posições Livres , Tamanho da fila) 
-void Pesquisar(Paciente *p){
+void Pesquisar(Paciente *p, int tam){
   menucontrole = 0;
 	printf(AZUL"<------------ 🔍Pesquisar pacientes -------> \n" RESET);
 	char escolha = ' ';
@@ -249,54 +273,24 @@ void Pesquisar(Paciente *p){
 }//VOID PESQUISAR
 
 //  Ver Fila Completa (Corre toda a fila e mostra todos os pacientes, nome , sobrenome , e a sua prioridade dentro da fila geral)
-void VfilaCompleta(Paciente *p){
-  int i = ini;
-	int indice=0;
-  menucontrole = 0;
-	printf(AZUL"--------- 📋Visualizar Fila Completa ---------- \n" RESET);
-
-if(vazia(p)){
-	printf(AZUL"A Fila está vazia! 🥲" RESET);
-}else{
+void VfilaCompleta(Paciente *p , int tam){
+	if(vazia(p)){
+		printf(AZUL"A Fila está vazia! 🥲" RESET);
+	}else{
 	Paciente *tmp;
 	tmp = p->prox;
-	printf("Nome:");
+	printf(AZUL"--------- 📋Visualizar Fila Completa ---------- \n" RESET);
 	while(tmp != NULL){
-		printf("%s", tmp->nome);
+		printf("Nome:");
+		printf("%s", tmp ->nome);
 		tmp = tmp->prox;
+		}
+		printf("\n");
 	}
 }
-
-	/*
-	if(ini == fim){ 
-    FilaVazia(); 
-    }else{
-			do{ 
-				if(indice <9){
-					printf(" 0%d" , indice+1); 
-				}else if( indice >=9){
-				  printf(" %d" , indice+1); 
-				}
-					printf(" - ");
-					printf("Nome: "); 
-					printf("%s" , p->nome);
-					printf(" ");
-          printf("%s" , p->sobrenome);
-          printf(" | ");
-  				printf("Prioridade: ");
-          printf("%c" , p->prioridade);
-  				printf(" | ");
-          printf(" \n");
-					i++; 
-					indice++;
-				}while(i<50);
-		} menucontrole =1;
-	*/
-	
-  }
-
-// Ver Fila por tipo de urgencia|Prioridade (corre toda a fila e mostra apenas os pacientes de acordo com a prioridade escolhida no sistema)
-void VfilaTipoUrgencia(Paciente *p){
+// Ver Fila por tipo de urgencia|Prioridade 
+//(corre toda a fila e mostra apenas os pacientes de acordo com a prioridade escolhida no sistema)
+void VfilaTipoUrgencia(Paciente *p , int tam){
 	int indice=0;
 	printf(AZUL"--------- 📋Visualizar Tipo de Urgência ---------- \n" RESET);
 	char escolha = ' ';
@@ -351,9 +345,8 @@ void VfilaTipoUrgencia(Paciente *p){
 				Error();
   } menucontrole =1;
 }
-
 // Consultar Fila (Posições Ocupadadas , Posições Livres , Tamanho da fila) 
-void ConsultarFila(){
+void ConsultarFila(int tam){
   int menucontrole = 0;
 	printf(AZUL"--------- 📋Consultar Fila ---------- \n" RESET);
 	printf("Tamanho da fila: ");
@@ -368,11 +361,11 @@ void ConsultarFila(){
 	menucontrole =1;
 }//Void ConsultarFila
 
+
 // Menu da Aplicação (Faz o rotiamento da aplicação , o menu que gerencia as rotas e chama as demais funções da aplicação) 
 void Menu(){
-  int i;
-
-	Paciente *p = (Paciente *) malloc(sizeof(Paciente));
+  int i , tam;
+	Paciente *p = (Paciente *) malloc(sizeof(Paciente)); 
 	do{
 		printf(AZUL"------------------ Menu ---------------- \n" RESET);
 		printf("1 - 📝Cadastrar Paciente \n");
@@ -385,23 +378,20 @@ void Menu(){
 		scanf("%d", &i);
 		printf(AZUL"---------------------------------------- \n" RESET);
 			switch(i){
-      case 1:Cadastrar(p);break;
+      case 1:Cadastrar(p, tam);break;
       case 2:Remover(); break;
-      case 3:Pesquisar(p);break;
-      case 4:VfilaCompleta(p);break;
-      case 5:VfilaTipoUrgencia(p);break;
-      case 6:ConsultarFila(); break;
+      case 3:Pesquisar(p,tam);break;
+      case 4:VfilaCompleta(p, tam);break;
+      case 5:VfilaTipoUrgencia(p, tam);break;
+      case 6:ConsultarFila(tam); break;
       default:Error();}
 	}while(menucontrole ==1); 
 }
-
 //  Main (classe principal da nossa aplicação, ela que sera chamada quando o código rodar)
 int main(){ 
-
+	int tam; //guarda total de elementos
 	Paciente *p = (Paciente *) malloc(sizeof(Paciente)); 
-	
 	inicia(p,&tam);
-	
 	setlocale (LC_ALL,"portuguese"); // define o idioma do projeto como portugês brasil
 	Menu(); // chama o menu
 }
