@@ -100,7 +100,7 @@ void InserirPacienteVerde(Paciente *novo, int tam){
 		novo->posicaoPrioridadeVerde = tamfilaVerde;
 		novo->prioridade = 'v';
 }
-aciente *aloca()
+  Paciente *aloca()
 {
  Paciente *novo = (Paciente *) malloc(sizeof(Paciente));
  if(!novo){
@@ -108,13 +108,14 @@ aciente *aloca()
   exit(1);
  }else{
   printf("Novo elemento: ");
-  scanf("%s", novo->nome);
+	
+  scanf("%s", novo->nome);//salvando só o nome
   return novo;
  }
 }
 
 void inserirFim(Paciente *p , int *tam){
-
+	//chama o aloca e passa ele como um novo nó
 	Paciente *novo = aloca();
 	novo->prox = NULL;
 
@@ -123,7 +124,7 @@ void inserirFim(Paciente *p , int *tam){
 	}else{
 		Paciente *tmp = p->prox;
 
-		while (tmp->prox !=NULL)
+		while(tmp->prox !=NULL)
 			tmp = tmp->prox;
 
 			tmp->prox = novo;
@@ -146,15 +147,18 @@ void CadastrarPaciente(){
 
 		case 'v': 
 		case 'V':
-    InserirPacienteVerde();
+   // InserirPacienteVerde();
 		break;
 
     case 'a':
     case 'A':
-    InserirPacienteAmarelo(); 
+  //  InserirPacienteAmarelo(); 
 		break;
 	}
-}void Cadastrar(Paciente *p , int tam){ // chama aloca e linka os ponteiros para o anterior e o proximo da fila
+}
+
+/*
+void Cadastrar(Paciente *p , int tam){ // chama aloca e linka os ponteiros para o anterior e o proximo da fila
 	int menucontrole = 0;
 	
 	Paciente *novo = aloca(tam);
@@ -164,6 +168,8 @@ void CadastrarPaciente(){
 	i = i+1;
 	fim++;
 }//VOID CADASTRAR
+
+*/
 
 void Remover(){
   printf("--------- 🚶Remover Paciente da Fila ---------- \n");
@@ -352,7 +358,6 @@ void ConsultarFila(int tam){
 	menucontrole =1;
 }//Void ConsultarFila
 
-
 // Menu da Aplicação (Faz o rotiamento da aplicação , o menu que gerencia as rotas e chama as demais funções da aplicação) 
 void Menu(){
   int i , tam;
@@ -369,15 +374,17 @@ void Menu(){
 		scanf("%d", &i);
 		printf(AZUL"---------------------------------------- \n" RESET);
 			switch(i){
-      case 1:Cadastrar(p, tam);break;
+      case 1:inserirFim(p, &tam);break;
       case 2:Remover(); break;
       case 3:Pesquisar(p,tam);break;
       case 4:VfilaCompleta(p, tam);break;
       case 5:VfilaTipoUrgencia(p, tam);break;
       case 6:ConsultarFila(tam); break;
-      default:Error()()
-	}while(menucontrole ==1); 
+      default:Error();
+				}
+		}while(menucontrole ==1); 
 }
+		
 //  Main (classe principal da nossa aplicação, ela que sera chamada quando o código rodar)
 int main(){ 
 	int tam; //guarda total de elementos
@@ -385,4 +392,5 @@ int main(){
 	inicia(p,&tam);
 	setlocale (LC_ALL,"portuguese"); // define o idioma do projeto como portugês brasil
 	Menu(); // chama o menu
+	
 }
