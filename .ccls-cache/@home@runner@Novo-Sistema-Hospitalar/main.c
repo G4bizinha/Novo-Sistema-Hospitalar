@@ -66,73 +66,41 @@ int vazia(Paciente *p){
  }
 } // Verifica se a fila esta vazia
 
-
-void IncerirPaciente(){
-
-
-
-
-	
-}
+void InserirPacienteAmarelo(Paciente *novo , int tam){
   
-  Paciente *aloca(){
-  int tam;
- Paciente *novo = (Paciente *) malloc(sizeof(Paciente));
-   if(!novo){
-    printf("Sem memoria disponivel!\n");
-    exit(1);
-   }else{
-	//Cadastrar Paciente	
-	char escolha = ' ';
-  printf("--------- 📝Cadastro ---------- \n");
-  printf("Cadastrar novo Paciente :\n");
-	printf("Qual o nome do Paciente ?\n");
-	printf("Digite o nome e sobrenome: ");
-  scanf("%s", novo->nome);
-	scanf("%s", novo->sobrenome);
-	novo->posicaoGeral = tam;
-	printf("Qual a urgência do paciente ?\n");
-	printf(VERDE"V - Verde");
-	printf(RESET" | ");
-	printf(AMARELO" A - Amarelo \n" RESET);
-	printf("Digite a urgência: ");
-	scanf(" %c", &escolha);
+ 		printf("--------- 📝Cadastro ---------- \n");
+		printf("Cadastrar novo Paciente :\n");
+		printf("Digite o nome e sobrenome: ");
+		scanf("%s", novo->nome);
+		scanf("%s", novo->sobrenome);
+		novo->posicaoGeral = tam;
+    printf(AMARELO"--------- 🟡 Prioridade Amarela 🟡 ---------- \n" RESET);
+		printf(AMARELO"Prioridade definida como Amarela! \n" RESET);
+		printf(AMARELO"-------------------------------------- \n \n \n" RESET);
+		Sucesso();
+		iniAmarelo++;
+		tamfilaAmarela = iniAmarelo;
+		novo->posicaoPrioridadeAmarela = tamfilaAmarela;
+		novo->prioridade = 'a';
+}
 
-	switch(escolha){
-
-		case 'v': 
-		case 'V':
-			printf(VERDE"--------- 🟢 Prioridade Verde 🟢 ---------- \n"RESET);
-			printf(VERDE"Prioridade definida como Verde! \n"RESET);
-			printf(VERDE"-------------------------------------- \n \n \n" RESET);
-			Sucesso();
-			iniVerde++;
-			tamfilaVerde = iniVerde;
-			novo->posicaoPrioridadeVerde = tamfilaVerde;
-			novo->prioridade = 'v';
-		break;
-
-    case 'a':
-    case 'A':
-      printf(AMARELO"--------- 🟡 Prioridade Amarela 🟡 ---------- \n" RESET);
-			printf(AMARELO"Prioridade definida como Amarela! \n" RESET);
-			printf(AMARELO"-------------------------------------- \n \n \n" RESET);
-			Sucesso();
-			iniAmarelo++;
-			tamfilaAmarela = iniAmarelo;
-			novo->posicaoPrioridadeAmarela = tamfilaAmarela;
-		  novo->prioridade = 'a';
-      break;
-      default:
-			Error();
-    break;
-	}
-    return novo;
- }
-}// aloca um novo nó na memória e incese as informações nesse nó.
-
-
-Paciente *aloca()
+void InserirPacienteVerde(Paciente *novo, int tam){
+    printf("--------- 📝Cadastro ---------- \n");
+		printf("Cadastrar novo Paciente :\n");
+		printf("Digite o nome e sobrenome: ");
+		scanf("%s", novo->nome);
+		scanf("%s", novo->sobrenome);
+		novo->posicaoGeral = tam;
+		printf(VERDE"--------- 🟢 Prioridade Verde 🟢 ---------- \n"RESET);
+		printf(VERDE"Prioridade definida como Verde! \n"RESET);
+		printf(VERDE"-------------------------------------- \n \n \n" RESET);
+		Sucesso();
+		iniVerde++;
+		tamfilaVerde = iniVerde;
+		novo->posicaoPrioridadeVerde = tamfilaVerde;
+		novo->prioridade = 'v';
+}
+aciente *aloca()
 {
  Paciente *novo = (Paciente *) malloc(sizeof(Paciente));
  if(!novo){
@@ -163,7 +131,30 @@ void inserirFim(Paciente *p , int *tam){
     (*tam)++;
 }
 
-void Cadastrar(Paciente *p , int tam){ // chama aloca e linka os ponteiros para o anterior e o proximo da fila
+
+
+void CadastrarPaciente(){
+ char escolha = ' ';
+	printf("Qual a urgência do paciente ?\n");
+	printf(VERDE"V - Verde");
+	printf(RESET" | ");
+	printf(AMARELO" A - Amarelo \n" RESET);
+	printf("Digite a urgência: ");
+	scanf(" %c", &escolha);
+
+		switch(escolha){
+
+		case 'v': 
+		case 'V':
+    InserirPacienteVerde();
+		break;
+
+    case 'a':
+    case 'A':
+    InserirPacienteAmarelo(); 
+		break;
+	}
+}void Cadastrar(Paciente *p , int tam){ // chama aloca e linka os ponteiros para o anterior e o proximo da fila
 	int menucontrole = 0;
 	
 	Paciente *novo = aloca(tam);
@@ -384,7 +375,7 @@ void Menu(){
       case 4:VfilaCompleta(p, tam);break;
       case 5:VfilaTipoUrgencia(p, tam);break;
       case 6:ConsultarFila(tam); break;
-      default:Error();}
+      default:Error()()
 	}while(menucontrole ==1); 
 }
 //  Main (classe principal da nossa aplicação, ela que sera chamada quando o código rodar)
