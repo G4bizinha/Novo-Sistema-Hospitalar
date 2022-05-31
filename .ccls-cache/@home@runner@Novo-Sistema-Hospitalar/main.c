@@ -14,19 +14,6 @@ int prioridade;
 int iniAmarelo, fimAmarelo;
 int iniVerde, fimVerde;
 
-struct Paciente{
-  char nome[50];//salva o nome do paciente na fila
-	char sobrenome[50];//salvar o sobrenome 
-  char prioridade;//salva a prioridade do paciente   V ou A
-  int posicaoGeral;//salva a posição do paciente da fila por ordem de chegada.
-	int posicaoPrioridadeVerde;//salva a posição do paciente pela prioridade Verde
-	int posicaoPrioridadeAmarela;//salva a posição do paciente pela prioridade Amarela
-	struct Paciente *ant; //pegar o paciente anterior
-	struct Paciente *prox; //pegar o proximo paciente
-};
- 
-typedef struct Paciente Paciente;
-
 // sistema de cores
 #define VERDE "\x1b[32m"
 #define AMARELO "\x1b[93m"
@@ -39,6 +26,7 @@ void Error(){ //mensagem de erro se a opção estiver errada
   printf("❌ Opção inválida! 😐 \nTente novamente! \n");
 	printf("---------------------------- \n" RESET);
 }
+
 void FilaVazia(){
 	printf(VERMELHO"--------- Erro ❗ ---------- \n" RESET);
 	printf(" Fila Vazia! , nenhum paciente foi encontrado 😢 \n");
@@ -51,9 +39,20 @@ void Sucesso(){
 	printf(VERDE"-------------------------------------- \n" RESET);
 }
 
+struct Paciente{
+  char nome[50];//salva o nome do paciente na fila
+	char sobrenome[50];//salvar o sobrenome 
+  char prioridade;//salva a prioridade do paciente   V ou A
+  int posicaoGeral;//salva a posição do paciente da fila por ordem de chegada.
+	int posicaoPrioridadeVerde;//salva a posição do paciente pela prioridade Verde
+	int posicaoPrioridadeAmarela;//salva a posição do paciente pela prioridade Amarela
+	struct Paciente *prox; //pegar o proximo paciente
+};
+typedef struct Paciente Paciente;
+
+
 void inicia(Paciente *p, int *tam){
  	p->prox = NULL;
-	p->ant = NULL;
  (*tam) = 0;
 }
 
@@ -132,8 +131,6 @@ void inserirFim(Paciente *p , int *tam){
     (*tam)++;
 }
 
-
-
 void CadastrarPaciente(){
  char escolha = ' ';
 	printf("Qual a urgência do paciente ?\n");
@@ -157,30 +154,20 @@ void CadastrarPaciente(){
 	}
 }
 
-/*
-void Cadastrar(Paciente *p , int tam){ // chama aloca e linka os ponteiros para o anterior e o proximo da fila
-	int menucontrole = 0;
-	
-	Paciente *novo = aloca(tam);
- 	novo->prox = NULL;
-
-	tam = tam +1; 
-	i = i+1;
-	fim++;
-}//VOID CADASTRAR
-
-*/
-
 void Remover(){
   printf("--------- 🚶Remover Paciente da Fila ---------- \n");
 
     //codigo para remover paciente
+
+	// criar um ponteiro inicio - p
+	//p->prox=
+
+	
 		
 	printf(VERDE"--------- ✔ Paciente removido com sucesso ! 😁👍---------- \n");
-	menucontrole =1;
-	//Reorganizar();
+	menucontrole=1 ;
+    
 }
-
 
 //Pesquisar (Posições Ocupadadas , Posições Livres , Tamanho da fila) 
 void Pesquisar(Paciente *p, int tam){
@@ -270,7 +257,7 @@ void Pesquisar(Paciente *p, int tam){
 }//VOID PESQUISAR
 
 //  Ver Fila Completa (Corre toda a fila e mostra todos os pacientes, nome , sobrenome , e a sua prioridade dentro da fila geral)
-void VfilaCompleta(Paciente *p , int tam){
+void VfilaCompleta(Paciente *p){
 	if(vazia(p)){
 		printf(AZUL"A Fila está vazia! 🥲" RESET);
 	}else{
@@ -377,7 +364,7 @@ void Menu(){
       case 1:inserirFim(p, &tam);break;
       case 2:Remover(); break;
       case 3:Pesquisar(p,tam);break;
-      case 4:VfilaCompleta(p, tam);break;
+      case 4:VfilaCompleta(p);break;
       case 5:VfilaTipoUrgencia(p, tam);break;
       case 6:ConsultarFila(tam); break;
       default:Error();

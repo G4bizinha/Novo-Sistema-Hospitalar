@@ -1,7 +1,6 @@
 # Sistema de Controle Hospitalar com Níveis de Prioridade
-Projeto Dia 17 <br/>
+Projeto Dia 14 <br/>
 Projeto desenvolvido durante graduação na cadeira de Estrutura de Dados
-
 
  - Fluxo lógico da aplicação:
  - sistema cadastra pacientes por níveis de prioridade.
@@ -11,6 +10,7 @@ Projeto desenvolvido durante graduação na cadeira de Estrutura de Dados
 
 - # implementação e requisitos do sistema
 - [x] Cria um menu
+- [ ] Criar uma estrutura | criar alocação dinâmica
 - [x] Cadastrar pacientes por noveis de prioridade
 - [x] Remover pacientes da fila de acordo com o nivel de prioridade seguindo a lógica FIFO
 - [x] visualizar fila completa
