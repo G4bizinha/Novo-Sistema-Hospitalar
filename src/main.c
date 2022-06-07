@@ -4,15 +4,7 @@
 #include <string.h>
 #include <unistd.h>
 
-int menucontrole = 1;
-int ini,fim;
-int tamfilaAmarela = 0;
-int tamfilaVerde = 0;
-int achou;
-int i=0;
-int prioridade;
-int iniAmarelo, fimAmarelo;
-int iniVerde, fimVerde;
+int menucontrole = 1 , ini, fim , tamfilaAmarela=0, tamfilaVerde = 0 , achou , i=0 , prioridade, iniAmarelo, fimAmarela , iniVerde, fimVerde;
 
 // sistema de cores
 #define VERDE "\x1b[32m"
@@ -27,13 +19,13 @@ void Error(){ //mensagem de erro se a opção estiver errada
 	printf("---------------------------- \n" RESET);
 }
 
-void FilaVazia(){
+void FilaVazia(){ // mensagem de erro - Fila Vazia
 	printf(VERMELHO"--------- Erro ❗ ---------- \n" RESET);
 	printf(" Fila Vazia! , nenhum paciente foi encontrado 😢 \n");
 	printf("-------------------------------------\n");
 }
 
-void Sucesso(){
+void Sucesso(){ // Mensagem de sucesso - quando o usuario é criado com sucesso e a aocção foi feita
 	printf(VERDE"--------- Sucesso ! ---------- \n");
 	printf(VERDE"✔ Conta criada com sucesso! \n");
 	printf(VERDE"-------------------------------------- \n" RESET);
@@ -50,13 +42,12 @@ struct Paciente{
 };
 typedef struct Paciente Paciente;
 
-
-void inicia(Paciente *p, int *tam){
+void inicia(Paciente *p, int *tam){ // inicia a fila
  	p->prox = NULL;
  (*tam) = 0;
 }
 
-int vazia(Paciente *p){
+int vazia(Paciente *p){ //verifica se a fila está vazia
  if(p->prox == NULL){
 	 return 1;
 	 FilaVazia();
@@ -66,14 +57,8 @@ int vazia(Paciente *p){
 } // Verifica se a fila esta vazia
 
 void InserirPacienteAmarelo(Paciente *novo , int tam){
-  
- 		printf("--------- 📝Cadastro ---------- \n");
-		printf("Cadastrar novo Paciente :\n");
-		printf("Digite o nome e sobrenome: ");
-		scanf("%s", novo->nome);
-		scanf("%s", novo->sobrenome);
-		novo->posicaoGeral = tam;
-    printf(AMARELO"--------- 🟡 Prioridade Amarela 🟡 ---------- \n" RESET);
+		
+    printf(AMARELO"---------  Prioridade Amarela  ---------- \n" RESET);
 		printf(AMARELO"Prioridade definida como Amarela! \n" RESET);
 		printf(AMARELO"-------------------------------------- \n \n \n" RESET);
 		Sucesso();
@@ -84,13 +69,8 @@ void InserirPacienteAmarelo(Paciente *novo , int tam){
 }
 
 void InserirPacienteVerde(Paciente *novo, int tam){
-    printf("--------- 📝Cadastro ---------- \n");
-		printf("Cadastrar novo Paciente :\n");
-		printf("Digite o nome e sobrenome: ");
-		scanf("%s", novo->nome);
-		scanf("%s", novo->sobrenome);
-		novo->posicaoGeral = tam;
-		printf(VERDE"--------- 🟢 Prioridade Verde 🟢 ---------- \n"RESET);
+		
+		printf(VERDE"---------  Prioridade Verde  ---------- \n"RESET);
 		printf(VERDE"Prioridade definida como Verde! \n"RESET);
 		printf(VERDE"-------------------------------------- \n \n \n" RESET);
 		Sucesso();
@@ -99,23 +79,29 @@ void InserirPacienteVerde(Paciente *novo, int tam){
 		novo->posicaoPrioridadeVerde = tamfilaVerde;
 		novo->prioridade = 'v';
 }
-  Paciente *aloca()
-{
+
+Paciente *aloca(int tam){ // aloca um novo nó para salvar um novo paciente
  Paciente *novo = (Paciente *) malloc(sizeof(Paciente));
  if(!novo){
-  printf("Sem memoria disponivel!\n");
+  printf("❗ Erro -> Sem memoria disponivel!\n");
   exit(1);
  }else{
-  printf("Novo elemento: ");
-	
-  scanf("%s", novo->nome);//salvando só o nome
+	 	printf("--------- 📝Cadastro ---------- \n");
+		printf("Cadastrar novo Paciente :\n");
+		printf("Digite o nome e sobrenome: ");
+		scanf("%s", novo->nome);
+		scanf("%s", novo->sobrenome);
+	 	novo->posicaoGeral = tam;
+	 
+   }
+     
   return novo;
- }
+ 
 }
 
-void inserirFim(Paciente *p , int *tam){
+void inserirFim(Paciente *p , int *tam){ // insere um novo paciente no final da fila
 	//chama o aloca e passa ele como um novo nó
-	Paciente *novo = aloca();
+	Paciente *novo = aloca(*tam);
 	novo->prox = NULL;
 
 	if(vazia(p)){
@@ -131,7 +117,7 @@ void inserirFim(Paciente *p , int *tam){
     (*tam)++;
 }
 
-void CadastrarPaciente(){
+void CadastrarPaciente(){ // cadastra um novo paciente de acordo com a sua prioridade dentro do sitema (nome,sobrenome, prioridade, e a sua posição dentro da fila normal , e pela fila por prioridade)
  char escolha = ' ';
 	printf("Qual a urgência do paciente ?\n");
 	printf(VERDE"V - Verde");
@@ -154,7 +140,7 @@ void CadastrarPaciente(){
 	}
 }
 
-void Remover(){
+void Remover(Paciente *p, int tam){
   printf("--------- 🚶Remover Paciente da Fila ---------- \n");
 
     //codigo para remover paciente
@@ -162,8 +148,6 @@ void Remover(){
 	// criar um ponteiro inicio - p
 	//p->prox=
 
-	
-		
 	printf(VERDE"--------- ✔ Paciente removido com sucesso ! 😁👍---------- \n");
 	menucontrole=1 ;
     
@@ -257,9 +241,9 @@ void Pesquisar(Paciente *p, int tam){
 }//VOID PESQUISAR
 
 //  Ver Fila Completa (Corre toda a fila e mostra todos os pacientes, nome , sobrenome , e a sua prioridade dentro da fila geral)
-void VfilaCompleta(Paciente *p){
+void VfilaCompleta(Paciente *p){ // visualizar fila completa 
 	if(vazia(p)){
-		printf(AZUL"A Fila está vazia! 🥲" RESET);
+		printf(AZUL"A Fila está vazia! " RESET);
 	}else{
 	Paciente *tmp;
 	tmp = p->prox;
@@ -289,7 +273,7 @@ void VfilaTipoUrgencia(Paciente *p , int tam){
 			
       case 'V':
       case 'v':
-        printf(VERDE"--------- 🟢Prioridade Verde🟢 ---------- \n" RESET);
+        printf(VERDE"--------- Prioridade Verde ---------- \n" RESET);
         if(tamfilaVerde == 0){ 
 					FilaVazia();
 					}else{
@@ -308,7 +292,7 @@ void VfilaTipoUrgencia(Paciente *p , int tam){
 			break;
 			case 'A':
       case 'a':
-        printf(AMARELO"--------- 🟡Prioridade Amarela🟡 ---------- \n" RESET);
+        printf(AMARELO"--------- Prioridade Amarela ---------- \n" RESET);
 				if(tamfilaAmarela == 0){
 					FilaVazia(); 
 					}else{
@@ -360,13 +344,13 @@ void Menu(){
 		printf("Digite uma Opção: ");
 		scanf("%d", &i);
 		printf(AZUL"---------------------------------------- \n" RESET);
-			switch(i){
+			switch(i){ // & - é quand é passagem por fererencia, posibilita editar e deletar , fazer alteração nessa varavel | quando não é passado por referencia faz uma cópia da variavel e não altera o valor real da mesma.
       case 1:inserirFim(p, &tam);break;
-      case 2:Remover(); break;
-      case 3:Pesquisar(p,tam);break;
-      case 4:VfilaCompleta(p);break;
+      case 2:Remover(p, tam); break; // tbm precisa passar o tam como referencia / tambem deve passar o p
+      case 3:Pesquisar(p,tam);break; // é passada como cópia poris pesquisar não faz alteração no tamanho da fila
+      case 4:VfilaCompleta(p);break; // 
       case 5:VfilaTipoUrgencia(p, tam);break;
-      case 6:ConsultarFila(tam); break;
+      case 6:ConsultarFila(tam); break; //
       default:Error();
 				}
 		}while(menucontrole ==1); 

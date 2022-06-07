@@ -4,15 +4,7 @@
 #include <string.h>
 #include <unistd.h>
 
-int menucontrole = 1;
-int ini,fim;
-int tamfilaAmarela = 0;
-int tamfilaVerde = 0;
-int achou;
-int i=0;
-int prioridade;
-int iniAmarelo, fimAmarelo;
-int iniVerde, fimVerde;
+int menucontrole = 1 , ini, fim , tamfilaAmarela=0, tamfilaVerde = 0 , achou , i=0 , prioridade, iniAmarelo, fimAmarela , iniVerde, fimVerde;
 
 // sistema de cores
 #define VERDE "\x1b[32m"
@@ -65,8 +57,7 @@ int vazia(Paciente *p){ //verifica se a fila está vazia
 } // Verifica se a fila esta vazia
 
 void InserirPacienteAmarelo(Paciente *novo , int tam){
-  
-		novo->posicaoGeral = tam;
+		
     printf(AMARELO"---------  Prioridade Amarela  ---------- \n" RESET);
 		printf(AMARELO"Prioridade definida como Amarela! \n" RESET);
 		printf(AMARELO"-------------------------------------- \n \n \n" RESET);
@@ -78,7 +69,7 @@ void InserirPacienteAmarelo(Paciente *novo , int tam){
 }
 
 void InserirPacienteVerde(Paciente *novo, int tam){
-		novo->posicaoGeral = tam;
+		
 		printf(VERDE"---------  Prioridade Verde  ---------- \n"RESET);
 		printf(VERDE"Prioridade definida como Verde! \n"RESET);
 		printf(VERDE"-------------------------------------- \n \n \n" RESET);
@@ -89,7 +80,7 @@ void InserirPacienteVerde(Paciente *novo, int tam){
 		novo->prioridade = 'v';
 }
 
-Paciente *aloca(){ // aloca um novo nó para salvar um novo paciente
+Paciente *aloca(int tam){ // aloca um novo nó para salvar um novo paciente
  Paciente *novo = (Paciente *) malloc(sizeof(Paciente));
  if(!novo){
   printf("❗ Erro -> Sem memoria disponivel!\n");
@@ -100,6 +91,7 @@ Paciente *aloca(){ // aloca um novo nó para salvar um novo paciente
 		printf("Digite o nome e sobrenome: ");
 		scanf("%s", novo->nome);
 		scanf("%s", novo->sobrenome);
+	 	novo->posicaoGeral = tam;
 	 
    }
      
@@ -109,7 +101,7 @@ Paciente *aloca(){ // aloca um novo nó para salvar um novo paciente
 
 void inserirFim(Paciente *p , int *tam){ // insere um novo paciente no final da fila
 	//chama o aloca e passa ele como um novo nó
-	Paciente *novo = aloca();
+	Paciente *novo = aloca(*tam);
 	novo->prox = NULL;
 
 	if(vazia(p)){
@@ -148,7 +140,7 @@ void CadastrarPaciente(){ // cadastra um novo paciente de acordo com a sua prior
 	}
 }
 
-void Remover(){
+void Remover(Paciente *p, int tam){
   printf("--------- 🚶Remover Paciente da Fila ---------- \n");
 
     //codigo para remover paciente
@@ -352,13 +344,13 @@ void Menu(){
 		printf("Digite uma Opção: ");
 		scanf("%d", &i);
 		printf(AZUL"---------------------------------------- \n" RESET);
-			switch(i){
+			switch(i){ // & - é quand é passagem por fererencia, posibilita editar e deletar , fazer alteração nessa varavel | quando não é passado por referencia faz uma cópia da variavel e não altera o valor real da mesma.
       case 1:inserirFim(p, &tam);break;
-      case 2:Remover(); break;
-      case 3:Pesquisar(p,tam);break;
-      case 4:VfilaCompleta(p);break;
+      case 2:Remover(p, tam); break; // tbm precisa passar o tam como referencia / tambem deve passar o p
+      case 3:Pesquisar(p,tam);break; // é passada como cópia poris pesquisar não faz alteração no tamanho da fila
+      case 4:VfilaCompleta(p);break; // 
       case 5:VfilaTipoUrgencia(p, tam);break;
-      case 6:ConsultarFila(tam); break;
+      case 6:ConsultarFila(tam); break; //
       default:Error();
 				}
 		}while(menucontrole ==1); 
