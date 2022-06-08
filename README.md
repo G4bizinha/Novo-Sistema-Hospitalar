@@ -11,10 +11,10 @@ Projeto desenvolvido durante graduação na cadeira de Estrutura de Dados
 - # implementação e requisitos do sistema
 - [x] Cria um menu
 - [ ] Criar uma estrutura | criar alocação dinâmica
-- [x] Cadastrar pacientes por noveis de prioridade
-- [x] Remover pacientes da fila de acordo com o nivel de prioridade seguindo a lógica FIFO
+- [x] Cadastrar pacientes por níveis de prioridade
+- [x] Remover pacientes da fila de acordo com o nível de prioridade seguindo a lógica FIFO
 - [x] visualizar fila completa
-- [x] visualizar fila por niveis de prioridade
+- [x] visualizar fila por níveis de prioridade
 - [x] verificar estado da fila
 - [x] Pesquisar pacientes na fila de acordo com a sua prioridade na fila geral
 
@@ -24,6 +24,17 @@ Projeto desenvolvido durante graduação na cadeira de Estrutura de Dados
  - VERMELHO = "\x1b[31m"
  - AZUL = "\x1b[34m"
  - RESET = "\x1b[0m"
+
+# Útil
+>  & - É usado em passagem por referência, posibilita na hora de editar e deletar e fazer alteração nessa variável <br/> 
+> | - É quando não é passado por referência faz uma cópia da variável e não altera o valor real da mesma.
+>Exemplo: <br/>
+> &tam
+
+# Main
+> Main (classe principal da nossa aplicação, ela que será chamada quando o código rodar) <br/> <br/>
+> int tam; - guarda total de elementos <br/>
+
 
 
 Projeto Licença MIT.
