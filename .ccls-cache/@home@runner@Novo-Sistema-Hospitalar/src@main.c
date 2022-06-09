@@ -60,6 +60,16 @@ int vazia(Paciente *p){ //verifica se a fila está vazia
  }
 } // Verifica se a fila esta vazia
 
+void Realoca(Paciente *p){ // realoca quem tem prioridade para frente da fila
+	if (prioridade == 'a' || prioridade == 'A') {
+    //p->prioridade=ini;
+		// verifica a prioridade e se entre as prioridades leva e m cinsideração a ordem de chegada pela prioridade
+		/* pegar o if epasar pra void aloca e chamr o realoca na propria void. aí ddentro da void realocar vai ter as funçoes dele
+
+*/
+  }
+}
+
 Paciente *aloca(){ // aloca um novo nó para salvar um novo paciente
  Paciente *novo = (Paciente *) malloc(sizeof(Paciente));
 	char prioridade = ' ';
@@ -99,27 +109,50 @@ Paciente *aloca(){ // aloca um novo nó para salvar um novo paciente
 				break;
      }
    }return novo;
+  
+  /*if (prioridade == 'a' || prioridade == 'A'){
+    Realoca(p);
+  }
+*/
 }
+
+
 
 void inserirFim(Paciente *p , int *tam){ // insere um novo paciente no final da fila
 	Paciente *novo = aloca(); //chama o aloca e passa ele como um novo nó
 	novo->prox = NULL; // define o proximo desse novo no como null , pois ele é o umtimo da fila, só sera mudado quando um novo nó fod adicionado
-	if(vazia(p)){ p->prox=novo; }else{
+	if(vazia(p)){ 
+		p->prox=novo; 
+		}else{
 		Paciente *tmp = p->prox;
-		while(tmp->prox !=NULL)
+		while(tmp->prox !=NULL){
 			tmp = tmp->prox;
+		}
 			tmp->prox = novo;
-      } (*tam)++;
+  } 
+	//(*tam)++;
 }
+//
+
+
 
 void Remover(Paciente *p, int tam){ //remove um paciente da fila
   printf("--------- 🚶Remover Paciente da Fila ---------- \n");
 
-    //codigo para remover paciente
-     
-	// criar um ponteiro inicio - p
-	// p->prox=NULL;
-
+  /*Paciente *novo = aloca(); //chama o aloca e passa ele como um novo nó
+	novo->prox = NULL; // define o proximo desse novo no como null , pois ele é o umtimo da fila, só sera mudado quando um novo nó fod adicionado
+	if(vazia(p)){ 
+		p->prox=novo; 
+		}else{
+		Paciente *tmp = p->prox;
+		while(tmp->prox !=NULL){
+			tmp = tmp->prox;
+		}
+			tmp->prox = NULL;
+  } 
+	  (*tam)--;
+  */
+	
 	printf(VERDE"--------- ✔ Paciente removido com sucesso ! 😁👍---------- \n");
 	menucontrole=1 ;
 }
@@ -128,7 +161,7 @@ void Pesquisar(Paciente *p, int tam){ //Pesquisar (Posições Ocupadadas , Posi�
   menucontrole = 0;
 	printf(AZUL"<------------ 🔍Pesquisar pacientes -------> \n" RESET);
 	char escolha = ' ';
-	char Nome[50]; // vetor para salvar o nome do paciente que sera lido abaixo e quesquisar o mesmo no vetor cadastro
+	char Nome[50]; // vetor para salvar o nome do paciente que sera lido abaixo e pesquisar o mesmo no vetor cadastro
 	char Sobrenome[50]; //vetor para salvar o sobrenome do paciente já existente que sera lido abaixo e irá pesquisar o mesmo no vetor cadastro
 	printf("Qual o nome do Paciente ?\n");
 	printf("Digite o nome: ");
@@ -275,7 +308,7 @@ void Menu(){ // Menu da Aplicação (Faz o rotiamento da aplicação , o menu qu
 		
 int main(){  
 	int tam; 
-	Paciente *p = (Paciente *) malloc(sizeof(Paciente)); 
+	Paciente *p = (Paciente *) malloc(sizeof(Paciente))// inicio esta na paciente p.; 
 	inicia(p,&tam);
 	setlocale (LC_ALL,"portuguese"); // define o idioma do projeto como portugês brasil
 	Menu(); 
