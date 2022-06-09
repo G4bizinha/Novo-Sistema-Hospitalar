@@ -109,13 +109,7 @@ Paciente *aloca(){ // aloca um novo nó para salvar um novo paciente
 				break;
      }
    }return novo;
-  
-  /*if (prioridade == 'a' || prioridade == 'A'){
-    Realoca(p);
-  }
-*/
-}
-
+}//ALOCA
 
 
 void inserirFim(Paciente *p , int *tam){ // insere um novo paciente no final da fila
@@ -130,11 +124,16 @@ void inserirFim(Paciente *p , int *tam){ // insere um novo paciente no final da 
 		}
 			tmp->prox = novo;
   } 
-	//(*tam)++;
-}
-//
+	  (*tam)++;
 
+	
+  if (prioridade == 'a' || prioridade == 'A') {
+    p->prioridade=ini;
+		// verifica a prioridade e se entre as prioridades leva e m cinsideração a ordem de chegada pela prioridade
+		 //pegar o if epasar pra void aloca e chamr o realoca na propria void. aí ddentro da void realocar vai ter as funçoes dele
+    }
 
+}//InserirFim
 
 void Remover(Paciente *p, int tam){ //remove um paciente da fila
   printf("--------- 🚶Remover Paciente da Fila ---------- \n");
@@ -155,7 +154,7 @@ void Remover(Paciente *p, int tam){ //remove um paciente da fila
 	
 	printf(VERDE"--------- ✔ Paciente removido com sucesso ! 😁👍---------- \n");
 	menucontrole=1 ;
-}
+}//Remover
 
 void Pesquisar(Paciente *p, int tam){ //Pesquisar (Posições Ocupadadas , Posições Livres , Tamanho da fila) 
   menucontrole = 0;
@@ -308,7 +307,7 @@ void Menu(){ // Menu da Aplicação (Faz o rotiamento da aplicação , o menu qu
 		
 int main(){  
 	int tam; 
-	Paciente *p = (Paciente *) malloc(sizeof(Paciente))// inicio esta na paciente p.; 
+	Paciente *p = (Paciente *) malloc(sizeof(Paciente));// inicio esta na paciente p. 
 	inicia(p,&tam);
 	setlocale (LC_ALL,"portuguese"); // define o idioma do projeto como portugês brasil
 	Menu(); 
